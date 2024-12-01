@@ -22,11 +22,13 @@ This Spring Boot application calculates reward points for customers of a retaile
      
 2. **Configure the MySQL Connection**:
    - Update the `application.properties` file in the `src/main/resources` directory to match your local MySQL setup:
+     ```properties
      spring.datasource.url=jdbc:mysql://localhost:3306/rewards_dev
      spring.datasource.username=root
      spring.datasource.password=your_password
      spring.jpa.hibernate.ddl-auto=update
      spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+     ```
 
 ### Running the Project Locally:
 1. Clone the repository:
@@ -45,9 +47,9 @@ This Spring Boot application calculates reward points for customers of a retaile
 
 API Endpoints:
 1. Create a New Reward Transaction
-    Method: POST
-    URL: /retail/rewards
-    Request Body:
+   - Method: POST
+   - URL: /retail/rewards
+   - Request Body:
     {
       "customerId": "100",
       "purchaseAmount": 120.00,
@@ -55,9 +57,9 @@ API Endpoints:
     }
     Response: 201 Created with a success message.
 2. Get Reward Points by Customer ID and Date Range
-    Method: GET
-    URL: /retail/rewards?customerId=106&fromDate=2024-07-01&toDate=2024-12-01
-    Response: A map of reward points for each month within the provided date range. If Date not provide by default CurrentDate rewards retrieved for the given customerId
+   - Method: GET
+   - URL: /retail/rewards?customerId=106&fromDate=2024-07-01&toDate=2024-12-01
+   - Response: A map of reward points for each month within the provided date range. If Date not provide by default CurrentDate rewards retrieved for the given customerId
     {
       "106": {
           "December": 50,
@@ -67,9 +69,9 @@ API Endpoints:
       }
     }
 3. Get Reward Points by Customer ID
-    Method: GET
-    URL: /retail/rewards/106
-    Response: A map of reward points for the customer.
+    - Method: GET
+    - URL: /retail/rewards/106
+    - Response: A map of reward points for the customer.
     {
       "106": {
           "December": 50,
@@ -84,3 +86,4 @@ Transaction Amount: Ensures the purchase amount is positive and greater than zer
 Customer ID: Ensures the customer ID is provided and valid.
 Transaction Date: Ensures the transaction date is not in the future and is not null.
 Date Range: Ensures that both fromDate and toDate are valid, with no future dates and that fromDate is before toDate.
+
