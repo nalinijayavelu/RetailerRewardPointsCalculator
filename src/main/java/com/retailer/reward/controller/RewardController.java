@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,13 +43,20 @@ public class RewardController {
 	}
 
 	@GetMapping
-	public ResponseEntity<Map<String, Map<String, Integer>>> getReward(@RequestParam String customerId,
+	public ResponseEntity<Map<String, Map<String, Integer>>> getRewardByCustomerIdAndDate(@RequestParam String customerId,
 			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
 			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
 
 		// Calling service to fetch rewards
-		Map<String, Map<String, Integer>> purchases = rewardService.getRewardsByCustomerIdAndDateRange(customerId,
+		Map<String, Map<String, Integer>> rewards = rewardService.getRewardsByCustomerIdAndDateRange(customerId,
 				fromDate, toDate);
-		return ResponseEntity.ok(purchases);
+		return ResponseEntity.ok(rewards);
+	}
+	
+	@GetMapping("/{customerId}")
+	public ResponseEntity<Map<String, Map<String, Integer>>> getRewardByCustomerId(@PathVariable String customerId) {
+		// Calling service to fetch rewards by customerId
+		Map<String, Map<String, Integer>> rewards = rewardService.getRewardsByCustomerId(customerId);
+		return ResponseEntity.ok(rewards);
 	}
 }

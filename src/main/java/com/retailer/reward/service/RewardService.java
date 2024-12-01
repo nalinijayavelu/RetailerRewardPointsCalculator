@@ -11,7 +11,7 @@ import com.retailer.reward.entity.Reward;
 import com.retailer.reward.exception.InvalidArgumentException;
 import com.retailer.reward.repository.RewardRepository;
 import com.retailer.reward.utils.MessageUtil;
-import com.retailer.reward.utils.RewardCalculator;
+import com.retailer.reward.utils.RewardCalculatorUtil;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,29 +28,40 @@ public class RewardService {
 	private RewardRepository rewardRepository;
 
 	public Map<String, Map<String, Integer>> calculateRewards(List<Reward> rewards) {
-		return RewardCalculator.calculateRewards(rewards);
+		return RewardCalculatorUtil.calculateRewards(rewards);
 	}
 
 	public void saveReward(Reward reward) {
+		log.info("RewardService | saveReward | InputData {} ", reward.toString());
 		validateReward(reward); // Performing validation
-		reward.setPoint(RewardCalculator.calculateRewardPoint(reward));
+		reward.setPoint(RewardCalculatorUtil.calculateRewardPoint(reward));
 		rewardRepository.save(reward);
 	}
 
-	public Map<String, Map<String, Integer>> getRewardsByCustomerIdAndDateRange(String customerId, LocalDate from,
-			LocalDate to) {
+	public Map<String, Map<String, Integer>> getRewardsByCustomerIdAndDateRange(String customerId, LocalDate fromDate,
+			LocalDate toDate) {
 		validateCustomerId(customerId); // Validating customerId
-		validateDateRange(from, to); // Validating date range
+		validateDateRange(fromDate, toDate); // Validating date range
 		List<Reward> rewards;
 
-		if (from != null && to != null) {
-			rewards = rewardRepository.findByCustomerIdAndTransactionDateBetween(customerId, from, to);
-		} else if (from == null && to == null) {
+		if (fromDate != null && toDate != null) {
+			rewards = rewardRepository.findByCustomerIdAndTransactionDateBetween(customerId, fromDate, toDate);
+		} else if (fromDate == null && toDate == null) {
 			rewards = rewardRepository.findByCustomerIdAndTransactionDate(customerId, LocalDate.now());
 		} else {
-			log.error("Invalid date range parameters provided");
 			throw new InvalidArgumentException(messageUtil.getMessage("invalid.date.range"), HttpStatus.BAD_REQUEST);
 		}
+		if (rewards.isEmpty()) {
+			log.info("No Rewards found {}");
+			return Map.of();
+		}
+		return calculateRewards(rewards);
+	}
+
+	public Map<String, Map<String, Integer>> getRewardsByCustomerId(String customerId) {
+		validateCustomerId(customerId); // Validating customerId
+		List<Reward> rewards;
+		rewards = rewardRepository.findByCustomerId(customerId);
 		if (rewards.isEmpty()) {
 			log.info("No Rewards found {}");
 			return Map.of();
@@ -66,7 +77,6 @@ public class RewardService {
 
 	private void validateCustomerId(String customerId) {
 		if (customerId == null || customerId.trim().isEmpty()) {
-			log.error("Invalid customer ID : null");
 			throw new InvalidArgumentException(messageUtil.getMessage("validation.customerId.Invalid"),
 					HttpStatus.BAD_REQUEST);
 		}
@@ -74,7 +84,6 @@ public class RewardService {
 
 	private void validateAmount(Double amount) {
 		if (amount == null || amount <= 0) {
-			log.error("Invalid transaction amount: {}", amount);
 			throw new InvalidArgumentException(messageUtil.getMessage("validation.amount.Invalid"),
 					HttpStatus.BAD_REQUEST);
 		}
@@ -82,24 +91,22 @@ public class RewardService {
 
 	private void validateTransactionDate(LocalDate transactionDate) {
 		if (transactionDate == null) {
-			log.error("Transaction date cannot be null");
 			throw new InvalidArgumentException(messageUtil.getMessage("validation.transactionDate.null"),
 					HttpStatus.BAD_REQUEST);
 		}
 		if (transactionDate.isAfter(LocalDate.now())) {
-			log.error("Transaction date cannot be in the future: {}", transactionDate);
 			throw new InvalidArgumentException(messageUtil.getMessage("validation.date.future"),
 					HttpStatus.BAD_REQUEST);
 		}
 	}
 
-	private void validateDateRange(LocalDate from, LocalDate to) {
+	private void validateDateRange(LocalDate fromDate, LocalDate toDate) {
 		LocalDate today = LocalDate.now();
-		if ((from != null && from.isAfter(today)) || (to != null && to.isAfter(today))) {
+		if ((fromDate != null && fromDate.isAfter(today)) || (toDate != null && toDate.isAfter(today))) {
 			throw new InvalidArgumentException(messageUtil.getMessage("validation.date.future"),
 					HttpStatus.BAD_REQUEST);
 		}
-		if (from != null && to != null && from.isAfter(to)) {
+		if (fromDate != null && toDate != null && fromDate.isAfter(toDate)) {
 			throw new InvalidArgumentException(messageUtil.getMessage("invalid.date.range"), HttpStatus.BAD_REQUEST);
 		}
 	}

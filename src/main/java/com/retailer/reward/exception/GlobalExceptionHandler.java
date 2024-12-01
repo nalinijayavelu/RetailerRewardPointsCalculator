@@ -9,7 +9,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -27,6 +30,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(InvalidArgumentException.class)
 	public ResponseEntity<String> handleIllegalArgumentException(InvalidArgumentException ex) {
+		log.error("Illegal Argument Exception ");
 		return ResponseEntity.badRequest().body(ex.getMessage());
 	}
 }

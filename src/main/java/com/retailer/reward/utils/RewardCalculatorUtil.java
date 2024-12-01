@@ -1,6 +1,5 @@
 package com.retailer.reward.utils;
 
-import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.HashMap;
 import java.util.List;
@@ -8,12 +7,11 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.retailer.reward.entity.Reward;
-import com.retailer.reward.service.RewardService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class RewardCalculator {
+public class RewardCalculatorUtil {
 
 	// Method to calculate rewards for each customer, per month and total
 	public static Map<String, Map<String, Integer>> calculateRewards(List<Reward> rewards) {
