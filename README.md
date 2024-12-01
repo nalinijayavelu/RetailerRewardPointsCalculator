@@ -82,8 +82,8 @@ API Endpoints:
     }
 
 **Validation Cases Handled:**
-Transaction Amount: Ensures the purchase amount is positive and greater than zero.
-Customer ID: Ensures the customer ID is provided and valid.
-Transaction Date: Ensures the transaction date is not in the future and is not null.
-Date Range: Ensures that both fromDate and toDate are valid, with no future dates and that fromDate is before toDate.
+- Transaction Amount: Ensures the purchase amount is positive and greater than zero.
+- Customer ID: Ensures the customer ID is provided and valid.
+- Transaction Date: Ensures the transaction date is not in the future and is not null.
+- Date Range: Ensures that both fromDate and toDate are valid, with no future dates and that fromDate is before toDate.
 
