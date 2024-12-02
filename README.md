@@ -87,31 +87,40 @@ API Endpoints:
 - Transaction Date: Ensures the transaction date is not in the future and is not null.
 - Date Range: Ensures that both fromDate and toDate are valid, with no future dates and that fromDate is before toDate.
 
+###Included Screenshot of test results
+
+**Create a New Reward Transaction**
 
 - Create a New Reward Transaction - success case
-(https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-SuccessCase.png)
+![Create a New Reward Transaction - success case](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-SuccessCase.png)
 
 - Create a New Reward Transaction - Validation for amount
-(https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-ValidationAmount.png)
+![](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-ValidationAmount.png)
 
 - Create a New Reward Transaction - Validation for CustomerId
-(https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-ValidationCustomerId.png)
+![Create a New Reward Transaction - Validation for CustomerId](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-ValidationCustomerId.png)
 
 - Create a New Reward Transaction - Validation for TransactionDate
-(https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-ValidationTransactionDate.png)
+![Create a New Reward Transaction - Validation for TransactionDate](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-ValidationTransactionDate.png)
 
 - Create a New Reward Transaction - Validation for Future TransactionDate
-(https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-ValidationFutureTransactionDate.png)
+![Create a New Reward Transaction - Validation for Future TransactionDate](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-ValidationFutureTransactionDate.png)
 
+**Get Reward Points by Customer ID and Date Range**
+ 
 - Get Reward Points by Customer ID and DateRange - Validation case for CustomerId
-(https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDAndDateRange-ValidationCustomerId.png)
+![Get Reward Points by Customer ID and DateRange - Validation case for CustomerId](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDAndDateRange-ValidationCustomerId.png)
 
-- Get Reward Points by Customer ID and Date Range—Success Case—If fromDate and toDate are not passed, reward for current Date data Retrieved.(https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDDateRange-SuccessCaseWithoutDate.png)
+- Get Reward Points by Customer ID and Date Range—Success Case—If fromDate and toDate are not passed, reward for current Date data Retrieved.
+![Get Reward Points by Customer ID and Date Range—Success Case—If fromDate and toDate are not passed, reward for current Date data Retrieved.](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDDateRange-SuccessCaseWithoutDate.png)
+
+- Get Reward Points by Customer ID and DateRange - Validation case for Future Date 
+![et Reward Points by Customer ID and DateRange - Validation case for Future Date](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDDateRange-ValidationcaseForFutureDate.png)
 
 - Get Reward Points by Customer ID and DateRange - Success Case
-(https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDDateRange-SuccessCase.png)
+![Get Reward Points by Customer ID and DateRange - Success Case](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDDateRange-SuccessCase.png)
 
+Get Reward Points by Customer ID
 - Get Reward Points by Customer ID Success case
-(https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDSuccessCase.png)
+![Get Reward Points by Customer ID Success case](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDSuccessCase.png)
 
-- Get Reward Points by Customer ID and DateRange - Validation case for Future Date (https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDDateRange-ValidationcaseForFutureDate.png)
