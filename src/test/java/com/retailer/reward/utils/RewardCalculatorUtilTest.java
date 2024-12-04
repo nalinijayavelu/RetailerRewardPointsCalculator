@@ -1,69 +1,65 @@
 package com.retailer.reward.utils;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
 import com.retailer.reward.entity.Reward;
 
 class RewardCalculatorUtilTest {
 
-    @Test
-    void testCalculateRewardPoint_WhenAmountIsOver100() {
-        Reward reward = new Reward();
-        reward.setAmount(120.0);
-        int points = RewardCalculatorUtil.calculateRewardPoint(reward);
-        assertThat(points).isEqualTo(90);
-    }
+	@Test
+	void testCalculateRewardPoint_AmountAbove100() {
+		Reward reward = new Reward();
+		reward.setAmount(120.0);
+		int points = RewardCalculatorUtil.calculateRewardPoint(reward);
+		assertEquals(90, points, "Points should be 90 for $120");
+	}
 
-    @Test
-    void testCalculateRewardPoint_WhenAmountIsBetween50And100() {
-        Reward reward = new Reward();
-        reward.setAmount(70.0);
-        int points = RewardCalculatorUtil.calculateRewardPoint(reward);
-        assertThat(points).isEqualTo(20); // 70-50 = 20 points
-    }
+	@Test
+	void testCalculateRewardPoint_AmountBetween50And100() {
+		Reward reward = new Reward();
+		reward.setAmount(70.0);
+		int points = RewardCalculatorUtil.calculateRewardPoint(reward);
+		assertEquals(20, points, "Points should be 20 for $70");
+	}
 
-    @Test
-    void testCalculateRewardPoint_WhenAmountIsBelow50() {
-        Reward reward = new Reward();
-        reward.setAmount(40.0);
-        int points = RewardCalculatorUtil.calculateRewardPoint(reward);
-        assertThat(points).isEqualTo(0);
-    }
+	@Test
+	void testCalculateRewardPoint_AmountBelow50() {
+		Reward reward = new Reward();
+		reward.setAmount(40.0);
+		int points = RewardCalculatorUtil.calculateRewardPoint(reward);
+		assertEquals(0, points, "Points should be 0 for $40");
+	}
 
-    @Test
-    void testCalculateRewards() {
-        Reward reward1 = new Reward();
-        reward1.setCustomerId("12345");
-        reward1.setTransactionDate(LocalDate.of(2024, 1, 15));
-        reward1.setAmount(120.0);
+	@Test
+	void testCalculateRewardPoint_AmountExactly100() {
+		Reward reward = new Reward();
+		reward.setAmount(100.0);
+		int points = RewardCalculatorUtil.calculateRewardPoint(reward);
+		assertEquals(50, points, "Points should be 50 for $100");
+	}
 
-        Reward reward2 = new Reward();
-        reward2.setCustomerId("12345");
-        reward2.setTransactionDate(LocalDate.of(2024, 1, 20));
-        reward2.setAmount(70.0);
+	@Test
+	void testCalculateRewardPoint_AmountExactly50() {
+		Reward reward = new Reward();
+		reward.setAmount(50.0);
+		int points = RewardCalculatorUtil.calculateRewardPoint(reward);
+		assertEquals(0, points, "Points should be 0 for $50");
+	}
 
-        Reward reward3 = new Reward();
-        reward3.setCustomerId("67890");
-        reward3.setTransactionDate(LocalDate.of(2024, 2, 5));
-        reward3.setAmount(40.0);
+	@Test
+	void testCalculateRewardPoint_NegativeAmount() {
+		Reward reward = new Reward();
+		reward.setAmount(-20.0);
+		int points = RewardCalculatorUtil.calculateRewardPoint(reward);
+		assertEquals(0, points, "Points should be 0 for a negative amount");
+	}
 
-        List<Reward> rewards = Arrays.asList(reward1, reward2, reward3);
-        Map<String, Map<String, Integer>> rewardsMap = RewardCalculatorUtil.calculateRewards(rewards);
-        assertThat(rewardsMap).hasSize(2);
-        Map<String, Integer> customer12345 = rewardsMap.get("12345");
-        assertThat(customer12345).hasSize(2);
-        assertThat(customer12345.get("January")).isEqualTo(110);
-        assertThat(customer12345.get("Total")).isEqualTo(110);
-        Map<String, Integer> customer67890 = rewardsMap.get("67890");
-        assertThat(customer67890).hasSize(2);
-        assertThat(customer67890.get("February")).isEqualTo(0);
-        assertThat(customer67890.get("Total")).isEqualTo(0);
-    }
+	@Test
+	void testCalculateRewardPoint_ZeroAmount() {
+		Reward reward = new Reward();
+		reward.setAmount(0.0);
+		int points = RewardCalculatorUtil.calculateRewardPoint(reward);
+		assertEquals(0, points, "Points should be 0 for $0");
+	}
 }

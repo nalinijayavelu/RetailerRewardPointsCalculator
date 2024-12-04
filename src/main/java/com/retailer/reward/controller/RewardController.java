@@ -1,8 +1,6 @@
 package com.retailer.reward.controller;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,23 +14,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.retailer.reward.dto.CustomerRewardsDto;
 import com.retailer.reward.entity.Reward;
-import com.retailer.reward.exception.InvalidArgumentException;
-import com.retailer.reward.service.RewardService;
+import com.retailer.reward.serviceImpl.RewardServiceImpl;
 import com.retailer.reward.utils.MessageUtil;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/retail/rewards")
 @RequiredArgsConstructor
-@Slf4j
 public class RewardController {
 
 	@Autowired
-	private RewardService rewardService;
+	private RewardServiceImpl rewardService;
 
 	private final MessageUtil messageUtil;
 
@@ -43,20 +39,18 @@ public class RewardController {
 	}
 
 	@GetMapping
-	public ResponseEntity<Map<String, Map<String, Integer>>> getRewardByCustomerIdAndDate(@RequestParam String customerId,
+	public ResponseEntity<CustomerRewardsDto> getRewardByCustomerIdAndDate(@RequestParam String customerId,
 			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
 			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
-
 		// Calling service to fetch rewards
-		Map<String, Map<String, Integer>> rewards = rewardService.getRewardsByCustomerIdAndDateRange(customerId,
-				fromDate, toDate);
-		return ResponseEntity.ok(rewards);
+		CustomerRewardsDto rewardsDto = rewardService.getRewardsByCustomerIdAndDateRange(customerId, fromDate, toDate);
+		return ResponseEntity.ok(rewardsDto);
 	}
-	
+
 	@GetMapping("/{customerId}")
-	public ResponseEntity<Map<String, Map<String, Integer>>> getRewardByCustomerId(@PathVariable String customerId) {
+	public ResponseEntity<CustomerRewardsDto> getRewardByCustomerId(@PathVariable String customerId) {
 		// Calling service to fetch rewards by customerId
-		Map<String, Map<String, Integer>> rewards = rewardService.getRewardsByCustomerId(customerId);
-		return ResponseEntity.ok(rewards);
+		CustomerRewardsDto rewardsDto = rewardService.getRewardsByCustomerId(customerId);
+		return ResponseEntity.ok(rewardsDto);
 	}
 }

@@ -26,6 +26,9 @@ public class Reward {
 	@NotBlank(message = "{validation.customerId.notBlank}")
 	private String customerId;
 
+	@NotBlank(message = "{validation.customerName.notBlank}")
+	private String customerName;
+
 	@Positive(message = "{validation.amount.positive}")
 	private double amount;
 
@@ -33,4 +36,24 @@ public class Reward {
 	private LocalDate transactionDate;
 
 	private long point;
+
+	// Custom constructor for specific use cases
+	public Reward(String customerId, String customerName, double amount, LocalDate transactionDate, long point) {
+		this.customerId = customerId;
+		this.customerName = customerName;
+		this.amount = amount;
+		this.transactionDate = transactionDate;
+		this.point = point;
+	}
+
+	public Reward(long id, String customerId, String customerName, double amount, long point,
+			LocalDate transactionDate) {
+		this.id = id;
+		this.customerId = customerId;
+		this.customerName = customerName;
+		this.amount = amount;
+		this.transactionDate = transactionDate;
+		this.point = point;
+	}
+
 }
