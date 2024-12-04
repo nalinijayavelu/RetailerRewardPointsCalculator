@@ -49,14 +49,14 @@ API Endpoints:
 1. Create a New Reward Transaction
    - Method: POST
    - URL: /retail/rewards
-     ```Request Body:
+     ```Request:
     {
       "customerId": "100",
       "customerName": "John",
       "purchaseAmount": 120.00,
       "purchaseDate": "2024-12-01"
     }
-   ```
+    ```
     Response: 201 Created with a success message.
 2. Get Reward Points by Customer ID and Date Range -  A map of reward points for each month within the provided date range. If Date not provide by default CurrentDate rewards retrieved for the given customerId
    - Method: GET
