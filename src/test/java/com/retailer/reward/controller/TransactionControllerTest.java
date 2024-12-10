@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDate;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -34,6 +35,7 @@ class TransactionControllerTest {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	@Test
+    @DisplayName("Test Creation of Reward - Success Scenario")
 	void testCreateReward_Success() throws Exception {
 		// Create a reward instance for the test
 		TransationRequestDto transationRequest = new TransationRequestDto("123", 200.0, "John Doe");
@@ -50,6 +52,7 @@ class TransactionControllerTest {
 	}
 
 	@Test
+    @DisplayName("Test Get Reward By Customer ID and Date - Success Scenario")
 	void testGetRewardByCustomerIdAndDate_Success() throws Exception {
 		String customerId = "12345";
 		LocalDate fromDate = LocalDate.of(2024, 1, 1);
@@ -71,6 +74,7 @@ class TransactionControllerTest {
 	}
 
 	@Test
+    @DisplayName("Test Get Reward By Customer ID - Success Scenario")
 	void testGetRewardByCustomerId_Success() throws Exception {
 		String customerId = "12345";
 
@@ -88,6 +92,7 @@ class TransactionControllerTest {
 	}
 
 	@Test
+    @DisplayName("Test Get Reward By Customer ID - Not Found Scenario")
 	void testGetRewardByCustomerId_NotFound() throws Exception {
 		String customerId = "99999";
 		// Mock the service to return null for a non-existing customer
@@ -99,6 +104,7 @@ class TransactionControllerTest {
 	}
 
 	@Test
+    @DisplayName("Test Create Reward - Invalid Data Scenario")
 	void testCreateReward_InvalidData() throws Exception {
 		// Create an invalid reward instance (missing required fields)
 		TransationRequestDto reward = new TransationRequestDto(); // Empty fields
@@ -110,6 +116,7 @@ class TransactionControllerTest {
 	}
 
 	@Test
+    @DisplayName("Test Get Reward By Customer ID and Date - Invalid Date Range case")
 	void testGetRewardByCustomerIdAndDate_InvalidDateRange() throws Exception {
 		String customerId = "12345";
 		LocalDate fromDate = LocalDate.now().plusDays(1); // Invalid future date

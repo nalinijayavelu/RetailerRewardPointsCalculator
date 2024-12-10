@@ -8,6 +8,7 @@ import com.retailer.reward.repository.TransactionRepository;
 import com.retailer.reward.serviceImpl.TransactionServiceImpl;
 import com.retailer.reward.utils.MessageUtil;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -37,6 +38,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test Save reward successfully when data is valid")
     void testSaveReward_Success() {
         TransationRequestDto request = new TransationRequestDto("C001", 120.0, "John Doe");
         Transaction transaction = new Transaction(request);
@@ -48,6 +50,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test Throw exception for invalid amount in reward")
     void testSaveReward_InvalidAmount() {
         TransationRequestDto request = new TransationRequestDto("C001", -10.0, "John Doe");
         Exception exception = assertThrows(InvalidArgumentException.class, () -> transactionService.saveReward(request));
@@ -56,6 +59,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test Retrieve rewards for customer successfully")
     void testGetRewardsByCustomerId_Success() {
         Transaction transaction = new Transaction(1L, "C001", "John Doe", 120.0, LocalDate.now(), 50);
         when(transactionRepository.findByCustomerId("C001")).thenReturn(List.of(transaction));
@@ -68,6 +72,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test Return empty rewards for customer when no transactions exist")
     void testGetRewardsByCustomerId_EmptyList() {
         when(transactionRepository.findByCustomerId("C001")).thenReturn(Collections.emptyList());
 
@@ -79,6 +84,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test Throw exception for null customer ID validation")
     void testValidateCustomerId_Null() {
         Exception exception = assertThrows(InvalidArgumentException.class, () -> transactionService.validateCustomerId(null));
 
@@ -86,6 +92,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test Throw exception for future transaction date validation")
     void testValidateTransactionDate_FutureDate() {
         Exception exception = assertThrows(InvalidArgumentException.class, () -> transactionService.validateTransactionDate(LocalDate.now().plusDays(1)));
 
@@ -93,6 +100,7 @@ public class TransactionServiceImplTest {
     }
     
     @Test
+    @DisplayName("Test Throw exception for invalid date range with fromDate after today")
     void testValidateDateRange_FromDateAfterToday() {
         LocalDate fromDate = LocalDate.now().plusDays(1);
         LocalDate toDate = LocalDate.now();
@@ -107,6 +115,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test Throw exception for invalid date range with toDate before fromDate")
     void testValidateDateRange_ToDateBeforeFromDate() {
         LocalDate fromDate = LocalDate.now().minusDays(1);
         LocalDate toDate = LocalDate.now().minusDays(2);
@@ -121,6 +130,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test Pass validation for a valid date range")
     void testValidateDateRange_ValidRange() {
         LocalDate fromDate = LocalDate.now().minusDays(2);
         LocalDate toDate = LocalDate.now();
@@ -129,11 +139,13 @@ public class TransactionServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test Allow null dates in date range validation")
     void testValidateDateRange_NullDates() {
         assertDoesNotThrow(() -> transactionService.validateDateRange(null, null));
     }
 
     @Test
+    @DisplayName("Test Map rewards to DTO with multiple months' transactions")
     void testMapRewardsToDto_MultipleMonths() {
         Transaction txn1 = new Transaction(1L, "C001", "John Doe", 100.0, LocalDate.of(2024, 11, 1), 50);
         Transaction txn2 = new Transaction(2L, "C001", "John Doe", 200.0, LocalDate.of(2024, 12, 1), 150);
@@ -151,6 +163,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test Map rewards to DTO with empty transactions list")
     void testMapRewardsToDto_EmptyTransactions() {
         List<Transaction> transactions = Collections.emptyList();
 

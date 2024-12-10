@@ -2,12 +2,14 @@ package com.retailer.reward.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import com.retailer.reward.entity.Transaction;
 
 class TransactionCalculatorUtilTest {
 
 	@Test
+    @DisplayName("Calculate reward points for an amount above $100")
 	void testCalculateRewardPoint_AmountAbove100() {
 		Transaction transaction = new Transaction();
 		transaction.setAmount(120.0);
@@ -16,6 +18,7 @@ class TransactionCalculatorUtilTest {
 	}
 
 	@Test
+    @DisplayName("Calculate reward points for an amount between $50 and $100")
 	void testCalculateRewardPoint_AmountBetween50And100() {
 		Transaction transaction = new Transaction();
 		transaction.setAmount(70.0);
@@ -24,6 +27,7 @@ class TransactionCalculatorUtilTest {
 	}
 
 	@Test
+    @DisplayName("Calculate reward points for an amount below $50")
 	void testCalculateRewardPoint_AmountBelow50() {
 		Transaction transaction = new Transaction();
 		transaction.setAmount(40.0);
@@ -32,6 +36,7 @@ class TransactionCalculatorUtilTest {
 	}
 
 	@Test
+    @DisplayName("Calculate reward points for an amount exactly $100")
 	void testCalculateRewardPoint_AmountExactly100() {
 		Transaction transaction = new Transaction();
 		transaction.setAmount(100.0);
@@ -40,6 +45,7 @@ class TransactionCalculatorUtilTest {
 	}
 
 	@Test
+    @DisplayName("Calculate reward points for an amount exactly $50")
 	void testCalculateRewardPoint_AmountExactly50() {
 		Transaction transaction = new Transaction();
 		transaction.setAmount(50.0);
@@ -48,6 +54,7 @@ class TransactionCalculatorUtilTest {
 	}
 
 	@Test
+    @DisplayName("Calculate reward points for a negative amount")
 	void testCalculateRewardPoint_NegativeAmount() {
 		Transaction transaction = new Transaction();
 		transaction.setAmount(-20.0);
@@ -56,6 +63,7 @@ class TransactionCalculatorUtilTest {
 	}
 
 	@Test
+    @DisplayName("Calculate reward points for a zero amount")
 	void testCalculateRewardPoint_ZeroAmount() {
 		Transaction transaction = new Transaction();
 		transaction.setAmount(0.0);
