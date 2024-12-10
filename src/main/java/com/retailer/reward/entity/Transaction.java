@@ -2,6 +2,8 @@ package com.retailer.reward.entity;
 
 import java.time.LocalDate;
 
+import com.retailer.reward.dto.TransationRequestDto;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Reward {
+public class Transaction {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +28,6 @@ public class Reward {
 	@NotBlank(message = "{validation.customerId.notBlank}")
 	private String customerId;
 
-	@NotBlank(message = "{validation.customerName.notBlank}")
 	private String customerName;
 
 	@Positive(message = "{validation.amount.positive}")
@@ -38,7 +39,7 @@ public class Reward {
 	private long point;
 
 	// Custom constructor for specific use cases
-	public Reward(String customerId, String customerName, double amount, LocalDate transactionDate, long point) {
+	public Transaction(String customerId, String customerName, double amount, LocalDate transactionDate, long point) {
 		this.customerId = customerId;
 		this.customerName = customerName;
 		this.amount = amount;
@@ -46,7 +47,7 @@ public class Reward {
 		this.point = point;
 	}
 
-	public Reward(long id, String customerId, String customerName, double amount, long point,
+	public Transaction(long id, String customerId, String customerName, double amount, long point,
 			LocalDate transactionDate) {
 		this.id = id;
 		this.customerId = customerId;
@@ -54,6 +55,13 @@ public class Reward {
 		this.amount = amount;
 		this.transactionDate = transactionDate;
 		this.point = point;
+	}
+	
+	public Transaction(TransationRequestDto transationRequest) {
+		this.customerId = transationRequest.getCustomerId();
+		this.amount = transationRequest.getAmount();
+		this.customerName = transationRequest.getCustomerName();
+		this.transactionDate = LocalDate.now();
 	}
 
 }

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.retailer.reward.dto.CustomerRewardsDto;
-import com.retailer.reward.entity.Reward;
-import com.retailer.reward.serviceImpl.RewardServiceImpl;
+import com.retailer.reward.dto.CustomerTransactionsDto;
+import com.retailer.reward.dto.TransationRequestDto;
+import com.retailer.reward.serviceImpl.TransactionServiceImpl;
 import com.retailer.reward.utils.MessageUtil;
 
 import jakarta.validation.Valid;
@@ -25,32 +25,33 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/retail/rewards")
 @RequiredArgsConstructor
-public class RewardController {
+public class TransactionController {
 
 	@Autowired
-	private RewardServiceImpl rewardService;
+	private TransactionServiceImpl transactionService;
 
 	private final MessageUtil messageUtil;
 
 	@PostMapping
-	public ResponseEntity<String> createReward(@Valid @RequestBody Reward reward) {
-		rewardService.saveReward(reward);
+	public ResponseEntity<String> createReward(@Valid @RequestBody TransationRequestDto transationRequest) {
+		transactionService.saveReward(transationRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).body(messageUtil.getMessage("purchase.transaction.success"));
 	}
 
 	@GetMapping
-	public ResponseEntity<CustomerRewardsDto> getRewardByCustomerIdAndDate(@RequestParam String customerId,
+	public ResponseEntity<CustomerTransactionsDto> getRewardByCustomerIdAndDate(@RequestParam String customerId,
 			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
 			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
-		// Calling service to fetch rewards
-		CustomerRewardsDto rewardsDto = rewardService.getRewardsByCustomerIdAndDateRange(customerId, fromDate, toDate);
-		return ResponseEntity.ok(rewardsDto);
+		// Calling service to fetch transactions
+		CustomerTransactionsDto customerRewards = transactionService.getRewardsByCustomerIdAndDateRange(customerId, fromDate,
+				toDate);
+		return ResponseEntity.ok(customerRewards);
 	}
 
 	@GetMapping("/{customerId}")
-	public ResponseEntity<CustomerRewardsDto> getRewardByCustomerId(@PathVariable String customerId) {
-		// Calling service to fetch rewards by customerId
-		CustomerRewardsDto rewardsDto = rewardService.getRewardsByCustomerId(customerId);
-		return ResponseEntity.ok(rewardsDto);
+	public ResponseEntity<CustomerTransactionsDto> getRewardByCustomerId(@PathVariable String customerId) {
+		// Calling service to fetch transactions by customerId
+		CustomerTransactionsDto customerRewards = transactionService.getRewardsByCustomerId(customerId);
+		return ResponseEntity.ok(customerRewards);
 	}
 }

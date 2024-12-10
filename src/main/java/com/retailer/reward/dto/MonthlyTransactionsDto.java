@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerRewardsDto {
-    private String customerId;
-    private String customerName;
-    private long totalPoints;
-    private List<RewardDto> transactions;
+public class MonthlyTransactionsDto {
+    private long points;
+    private List<TransactionDto> transactions;
 }

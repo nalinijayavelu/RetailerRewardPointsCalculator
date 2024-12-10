@@ -1,10 +1,10 @@
 package com.retailer.reward.utils;
 
-import com.retailer.reward.entity.Reward;
+import com.retailer.reward.entity.Transaction;
 
-public class RewardCalculatorUtil {
+public class TransactionCalculatorUtil {
 
-	public static int calculateRewardPoint(Reward reward) {
+	public static int calculateRewardPoint(Transaction reward) {
 		int point = 0;
 		if (reward.getAmount() > 100) {
 			point += (reward.getAmount() - 100) * 2;
