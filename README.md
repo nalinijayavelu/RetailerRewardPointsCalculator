@@ -49,37 +49,57 @@ API Endpoints:
 1. Create a New Reward Transaction
    - Method: POST
    - URL: /retail/rewards
-   - Request Body:
+    ```Request:
     {
       "customerId": "100",
+      "customerName": "John",
       "purchaseAmount": 120.00,
       "purchaseDate": "2024-12-01"
     }
+   ```
     Response: 201 Created with a success message.
-2. Get Reward Points by Customer ID and Date Range
+2. Get Reward Points by Customer ID and Date Range -  A map of reward points for each month within the provided date range. If Date not provide by default CurrentDate rewards retrieved for the given customerId
    - Method: GET
-   - URL: /retail/rewards?customerId=106&fromDate=2024-07-01&toDate=2024-12-01
-   - Response: A map of reward points for each month within the provided date range. If Date not provide by default CurrentDate rewards retrieved for the given customerId
+   - URL: /retail/rewards?customerId=100&fromDate=2024-07-01&toDate=2024-12-05
+    ```Response:
     {
-      "106": {
-          "December": 50,
-          "Total": 490,
-          "July": 350,
-          "August": 90
+    "customerId": "100",
+    "customerName": "John",
+    "totalPoints": 141,
+    "transactions": [
+        {
+            "id": 1,
+            "amount": 120.5,
+            "date": "2024-12-04",
+            "rewardPoints": 91
+        },
+        {
+            "id": 4,
+            "amount": 100.0,
+            "date": "2024-11-28",
+            "rewardPoints": 50
+         }
+       ]
       }
-    }
+    ```
 3. Get Reward Points by Customer ID
     - Method: GET
-    - URL: /retail/rewards/106
-    - Response: A map of reward points for the customer.
-    {
-      "106": {
-          "December": 50,
-          "Total": 490,
-          "July": 350,
-          "August": 90
-      }
-    }
+    - URL: /retail/rewards/101
+    ```Response:
+   {
+       "customerId": "101",
+       "customerName": "Neel",
+       "totalPoints": 250,
+       "transactions": [
+         {
+               "id": 2,
+               "amount": 200.0,
+               "date": "2024-12-05",
+               "rewardPoints": 250
+           }
+       ]
+   }
+   ```
 
 **Validation Cases Handled:**
 - Transaction Amount: Ensures the purchase amount is positive and greater than zero.
@@ -122,5 +142,5 @@ API Endpoints:
 
 Get Reward Points by Customer ID
 - Get Reward Points by Customer ID Success case
-![Get Reward Points by Customer ID Success case](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDSuccessCase.png)
+![Get Reward Points by Customer ID Success case](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerID.png)
 
