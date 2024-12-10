@@ -50,11 +50,10 @@ API Endpoints:
    - Method: POST
    - URL: /retail/rewards
     ```Request:
-    {
-      "customerId": "100",
-      "customerName": "John",
-      "purchaseAmount": 120.00,
-      "purchaseDate": "2024-12-01"
+     {
+        "customerId": "101",
+        "customerName": "Neel",
+        "amount": 120
     }
    ```
     Response: 201 Created with a success message.
@@ -63,48 +62,75 @@ API Endpoints:
    - URL: /retail/rewards?customerId=100&fromDate=2024-07-01&toDate=2024-12-05
     ```Response:
     {
-    "customerId": "100",
-    "customerName": "John",
-    "totalPoints": 141,
-    "transactions": [
-        {
-            "id": 1,
-            "amount": 120.5,
-            "date": "2024-12-04",
-            "rewardPoints": 91
-        },
-        {
-            "id": 4,
-            "amount": 100.0,
-            "date": "2024-11-28",
-            "rewardPoints": 50
-         }
-       ]
-      }
+       "customerId": "100",
+       "customerName": "John",
+       "totalPoints": 441,
+       "transactionsByMonth": {
+           "Dec2024": {
+               "points": 441,
+               "transactions": [
+                   {
+                       "id": 1,
+                       "amount": 120.5,
+                       "date": "2024-12-10",
+                       "rewardPoints": 91
+                   },
+                   {
+                       "id": 5,
+                       "amount": 250.0,
+                       "date": "2024-12-10",
+                       "rewardPoints": 350
+                   }
+               ]
+           }
+       }
+   }
     ```
 3. Get Reward Points by Customer ID
     - Method: GET
     - URL: /retail/rewards/101
     ```Response:
    {
-       "customerId": "101",
-       "customerName": "Neel",
-       "totalPoints": 250,
-       "transactions": [
-         {
-               "id": 2,
-               "amount": 200.0,
-               "date": "2024-12-05",
-               "rewardPoints": 250
-           }
-       ]
+    "customerId": "100",
+    "customerName": "John",
+    "totalPoints": 491,
+    "transactionsByMonth": {
+        "Nov2024": {
+            "points": 50,
+            "transactions": [
+                {
+                    "id": 4,
+                    "amount": 100.0,
+                    "date": "2024-11-10",
+                    "rewardPoints": 50
+                }
+            ]
+        },
+        "Dec2024": {
+            "points": 441,
+            "transactions": [
+                {
+                    "id": 1,
+                    "amount": 120.5,
+                    "date": "2024-12-10",
+                    "rewardPoints": 91
+                },
+                {
+                    "id": 5,
+                    "amount": 250.0,
+                    "date": "2024-12-10",
+                    "rewardPoints": 350
+                }
+            ]
+        }
+    }
    }
    ```
 
 **Validation Cases Handled:**
 - Transaction Amount: Ensures the purchase amount is positive and greater than zero.
 - Customer ID: Ensures the customer ID is provided and valid.
-- Transaction Date: Ensures the transaction date is not in the future and is not null.
+- Transaction Date: Ensures the transaction date is not null and not in the future.
 - Date Range: Ensures that both fromDate and toDate are valid, with no future dates and that fromDate is before toDate.
 
 ###Included Screenshot of test results
@@ -114,30 +140,22 @@ API Endpoints:
 - Create a New Reward Transaction - success case
 ![Create a New Reward Transaction - success case](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-SuccessCase.png)
 
-- Create a New Reward Transaction - Validation for amount
+- Create a New Reward Transaction - Validation for an amount
 ![](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-ValidationAmount.png)
 
 - Create a New Reward Transaction - Validation for CustomerId
 ![Create a New Reward Transaction - Validation for CustomerId](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-ValidationCustomerId.png)
-
-- Create a New Reward Transaction - Validation for TransactionDate
-![Create a New Reward Transaction - Validation for TransactionDate](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-ValidationTransactionDate.png)
-
-- Create a New Reward Transaction - Validation for Future TransactionDate
-![Create a New Reward Transaction - Validation for Future TransactionDate](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/CreateNewRewardTransaction-ValidationFutureTransactionDate.png)
 
 **Get Reward Points by Customer ID and Date Range**
  
 - Get Reward Points by Customer ID and DateRange - Validation case for CustomerId
 ![Get Reward Points by Customer ID and DateRange - Validation case for CustomerId](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDAndDateRange-ValidationCustomerId.png)
 
-- Get Reward Points by Customer ID and Date Range—Success Case—If fromDate and toDate are not passed, reward for current Date data Retrieved.
-![Get Reward Points by Customer ID and Date Range—Success Case—If fromDate and toDate are not passed, reward for current Date data Retrieved.](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDDateRange-SuccessCaseWithoutDate.png)
-
 - Get Reward Points by Customer ID and DateRange - Validation case for Future Date 
 ![et Reward Points by Customer ID and DateRange - Validation case for Future Date](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDDateRange-ValidationcaseForFutureDate.png)
 
 - Get Reward Points by Customer ID and DateRange - Success Case
+- If fromDate and toDate are not passed then 3 months transactions are retrieved.
 ![Get Reward Points by Customer ID and DateRange - Success Case](https://github.com/nalinijayavelu/RetailerRewardPointsCalculator/blob/master/assets/GetRewardPointsByCustomerIDDateRange-SuccessCase.png)
 
 Get Reward Points by Customer ID
